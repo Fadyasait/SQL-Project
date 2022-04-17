@@ -1,0 +1,84 @@
+-- CREATE DATABASE store ;
+USE store;
+
+-- CREATE countries TABLE ;
+CREATE TABLE countries (
+code INT PRIMARY KEY,
+name varchar(20) unique,
+continent_name varchar(20) unique not null
+);
+
+-- CREATE users TABLE ;
+CREATE TABLE users (
+id INT PRIMARY KEY,
+full_name varchar(20),
+email varchar(20) unique,
+gender char(1) check (gender ='m' or gender ='f'),
+date_of_birth varchar(15),
+created_at datetime,
+country_code int unique,
+Foreign key (country_code) REFERENCES countries(id)
+);
+
+-- CREATE orders TABLE ;
+CREATE TABLE orders (
+id INT PRIMARY KEY,
+user_id int unique,
+Foreign key (user_id) REFERENCES users(id),
+status varchar(6) check (status ='start' or status ='finish'),
+created_at datetime
+);
+
+-- CREATE order_products TABLE ;
+CREATE TABLE order_products (
+order_id int,
+product_id int,
+quantity int default 0,
+primary key (order_id, product_id),
+Foreign key (order_id) REFERENCES orders(id),
+Foreign key (product_id) REFERENCES products(id)
+);
+
+-- CREATE products TABLE ;
+CREATE TABLE products (
+id INT PRIMARY KEY,
+name varchar(10) not null,
+price int default 0,
+status varchar(10) check (status ='valid' or status ='expired'),
+created_at datetime DEFAULT '0000-00-00 00:00:00'
+); 
+
+-- INSEERT into countries;
+insert into countries (code, name, continent_name)
+VALUES (966, 'Jeddah', 'Saudi Arabia');
+SELECT * from countries;
+
+-- INSEERT into users;
+insert into users (id, full_name, email, gender, date_of_birth, created_at, country_code)
+VALUES (1, 'Fadya Sait', 'Fsait219@gmail.com', 'f', '20/11/1998', '2022-4-17 01:19:00', 966);
+SELECT * from users;
+
+-- INSEERT into orders;
+insert into orders (id, user_id, status, created_at)
+VALUES (1, 1, 'start', '2022-4-17 01:19:00');
+SELECT * from orders;
+
+-- INSEERT into products;
+insert into products (id, name, price, status, created_at)
+VALUES (1, 'Fadya', 100,'valid', '2022-4-17 01:19:00');
+SELECT * from products;
+
+-- INSEERT into order_products;
+insert into order_products (order_id, product_id, quantity)
+VALUES (1, 10, 100);
+SELECT * from order_products;*/
+
+-- UPDATE row in countries;
+UPDATE countries
+SET name = 'Dammam'
+WHERE name ='Jeddah';
+SELECT * from countries;
+
+-- DELETE row in products;
+DELETE FROM products;
+SELECT * from products;
